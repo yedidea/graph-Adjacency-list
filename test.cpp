@@ -124,7 +124,7 @@ TEST_CASE("Kruskal MST total weight") {
     CHECK(mst.getTotalWeight() == 6);
 }
 
-TEST_CASE("Prim and Kruskal throw on disconnected graph") {
+TEST_CASE("Prim and Kruskal throw error on disconnected graph") {
     Graph g(4);
     g.addEdge(0, 1, 1);
     g.addEdge(2, 3, 1);
@@ -207,7 +207,7 @@ TEST_CASE("PriorityQueue decreaseKey updates an existing item") {
     CHECK(second.priority == 30);
 }
 
-TEST_CASE("PriorityQueue decreaseKey throws for missing vertex") {
+TEST_CASE("PriorityQueue decreaseKey throws an error for missing vertex") {
     PriorityQueue pq(3);
 
     pq.push(1, 20);
@@ -215,7 +215,7 @@ TEST_CASE("PriorityQueue decreaseKey throws for missing vertex") {
     CHECK_THROWS_AS(pq.decreaseKey(2, 5), std::runtime_error);
 }
 
-TEST_CASE("PriorityQueue throws when full") {
+TEST_CASE("PriorityQueue throws an error when full") {
     PriorityQueue pq(2);
 
     pq.push(0, 5);
@@ -233,7 +233,7 @@ TEST_CASE("Algorithms validate source vertices") {
     CHECK_THROWS_AS(Algorithms::dijkstra(g, 5), std::out_of_range);
 }
 
-TEST_CASE("Graph getWeight throws when edge does not exist") {
+TEST_CASE("Graph getWeight throws an error when edge does not exist") {
     Graph g(3);
     g.addEdge(0, 1, 4);
 

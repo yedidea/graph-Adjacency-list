@@ -57,7 +57,7 @@ Since STL containers are not used, the project also includes basic implementatio
 * `UnionFind` - used for Kruskal.
 
 The priority queue supports `push`, `popMin`, `contains`, and `decreaseKey`.
-The `decreaseKey` function is implemented with a simple linear search because the assignment does not require a specific time complexity.
+The `decreaseKey` function is implemented with a simple linear search.
 
 ## Files
 
@@ -97,8 +97,17 @@ Clean compiled files:
 make clean
 ```
 
+## Memory Management
+
+The project uses dynamic memory allocation, so memory management is handled manually.
+
+The Graph, Queue, PriorityQueue, and UnionFind classes include destructors to release allocated memory.
+The Graph class also implements a copy constructor and assignment operator in order to support deep copy and avoid memory issues.
+
+The project was tested with Valgrind to check for memory leaks.
+
 ## Testing
 
 The project includes unit tests for the graph operations, algorithms, and helper data structures.
 
-The tests check edge insertion and removal, BFS, DFS, Dijkstra, Prim, Kruskal, Queue, PriorityQueue, and UnionFind.
+The tests check edge insertion and removal, invalid input, exceptions, deep copy behavior, BFS, DFS, Dijkstra, Prim, Kruskal, Queue, PriorityQueue, and UnionFind.

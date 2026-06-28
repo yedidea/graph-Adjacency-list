@@ -193,6 +193,10 @@ void Graph::removeEdge(int src, int dest) {
     validateVertex(src);
     validateVertex(dest);
 
+    if (!edgeExists(src, dest)) {
+    throw std::runtime_error("Edge does not exist");
+    }
+
     bool removedFromSrc = removeDirectedEdge(src, dest);
     bool removedFromDest = removeDirectedEdge(dest, src);
 

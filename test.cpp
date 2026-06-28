@@ -326,5 +326,20 @@ TEST_CASE("Graph getWeight throws an exception when edge does not exist") {
     CHECK_THROWS_AS(g.getWeight(0, 2), std::runtime_error);
 }
 
+/**
+ * Tests for invalid capacity for Queue, PriorityQueue, and UnionFind.
+ */
+
+TEST_CASE("Queue invalid capacity throws exception") {
+    CHECK_THROWS_AS(Queue(0), std::invalid_argument);
+}
+
+TEST_CASE("PriorityQueue invalid capacity throws exception") {
+    CHECK_THROWS_AS(PriorityQueue(0), std::invalid_argument);
+}
+
+TEST_CASE("UnionFind invalid size throws exception") {
+    CHECK_THROWS_AS(UnionFind(0), std::invalid_argument);
+}
 
 

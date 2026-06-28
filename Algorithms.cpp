@@ -7,14 +7,27 @@
 
 namespace graph {
 
+/**
+ * Helper structure used by Kruskal's algorithm.
+ * It stores one undirected edge as source, destination, and weight.
+ */
 struct EdgeData {
     int src;
     int dest;
     int weight;
 };
 
+/**
+ * A large value used as "infinity" for Dijkstra and Prim.
+ */
 static const int INF = 1000000000;
 
+/**
+ * Runs BFS from a given source vertex.
+ *
+ * The function uses the custom Queue class and returns a new graph that
+ * contains only the tree edges discovered by the BFS traversal.
+ */
 Graph Algorithms::bfs(const Graph& input, int source) {
     int vertices = input.getVertices();
     if (source < 0 || source >= vertices) {
@@ -53,6 +66,10 @@ Graph Algorithms::bfs(const Graph& input, int source) {
     return result;
 }
 
+/**
+ * Recursive helper for DFS.
+ * It marks the current vertex and adds only tree edges to the result graph.
+ */
 void Algorithms::dfsVisit(const Graph& input, Graph& result, int vertex, bool* visited) {
     visited[vertex] = true;
 
@@ -69,6 +86,12 @@ void Algorithms::dfsVisit(const Graph& input, Graph& result, int vertex, bool* v
     }
 }
 
+/**
+ * Runs DFS from a given start vertex.
+ *
+ * After visiting the connected component of the start vertex, the function
+ * continues with unvisited vertices so the result can be a DFS forest.
+ */
 Graph Algorithms::dfs(const Graph& input, int start) {
     int vertices = input.getVertices();
     if (start < 0 || start >= vertices) {
@@ -94,6 +117,13 @@ Graph Algorithms::dfs(const Graph& input, int start) {
     return result;
 }
 
+/**
+ * Runs Dijkstra's algorithm from a given source vertex.
+ *
+ * The function uses the custom PriorityQueue. The priority is the current
+ * shortest known distance from the source. The returned graph contains the
+ * parent edges that form the shortest paths tree.
+ */
 Graph Algorithms::dijkstra(const Graph& input, int source) {
     int vertices = input.getVertices();
     if (source < 0 || source >= vertices) {
@@ -168,6 +198,12 @@ Graph Algorithms::dijkstra(const Graph& input, int source) {
     return result;
 }
 
+/**
+ * Runs Prim's algorithm to find a minimum spanning tree.
+ *
+ * The priority queue stores the cheapest known edge that can connect each
+ * vertex to the current tree. If the graph is not connected, no MST exists.
+ */
 Graph Algorithms::prim(const Graph& input) {
     int vertices = input.getVertices();
 
@@ -245,6 +281,11 @@ Graph Algorithms::prim(const Graph& input) {
     return result;
 }
 
+/**
+ * Sorts an array of edges by weight using selection sort.
+ * This simple implementation is enough because the assignment does not require
+ * a specific time complexity for the helper data structures.
+ */
 static void sortEdgesByWeight(EdgeData* edges, int edgeCount) {
     for (int i = 0; i < edgeCount - 1; i++) {
         int minIndex = i;
@@ -263,6 +304,12 @@ static void sortEdgesByWeight(EdgeData* edges, int edgeCount) {
     }
 }
 
+/**
+ * Runs Kruskal's algorithm to find a minimum spanning tree.
+ *
+ * The function collects all undirected edges, sorts them by weight, and uses
+ * UnionFind to avoid adding edges that would create cycles.
+ */
 Graph Algorithms::kruskal(const Graph& input) {
     int vertices = input.getVertices();
     int maxEdges = vertices * (vertices - 1) / 2;

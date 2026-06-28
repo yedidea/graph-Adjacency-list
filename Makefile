@@ -5,6 +5,8 @@ CXXFLAGS = -Wall -Wextra -std=c++11 -g
 SOURCES = Graph.cpp Algorithms.cpp Queue.cpp PriorityQueue.cpp UnionFind.cpp
 OBJECTS = Graph.o Algorithms.o Queue.o PriorityQueue.o UnionFind.o
 
+.PHONY: Main test valgrind clean
+
 Main: main.o $(OBJECTS)
 	$(CXX) $(CXXFLAGS) -o Main main.o $(OBJECTS)
 	./Main

@@ -4,6 +4,12 @@
 
 namespace graph {
 
+/**
+ * A simple circular queue implemented with a dynamic array.
+ *
+ * The queue is used by BFS. It replaces std::queue because STL containers
+ * are not allowed in this assignment.
+ */
 class Queue {
 private:
     int* data;

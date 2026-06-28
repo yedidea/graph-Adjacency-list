@@ -6,6 +6,13 @@
 
 namespace graph {
 
+/**
+ * Provides graph algorithms that operate on the Graph class.
+ *
+ * Each algorithm receives an existing graph and returns a new graph that
+ * represents the result, such as a traversal tree, a shortest paths tree,
+ * or a minimum spanning tree.
+ */
 class Algorithms {
 private:
     static void dfsVisit(const Graph& input, Graph& result, int vertex, bool* visited);

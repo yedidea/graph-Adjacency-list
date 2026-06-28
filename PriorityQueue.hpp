@@ -4,11 +4,21 @@
 
 namespace graph {
 
+/**
+ * Represents one item in the priority queue.
+ * The item stores a vertex and its priority value.
+ */
 struct PQItem {
     int vertex;
     int priority;
 };
 
+/**
+ * A simple minimum priority queue implemented with a dynamic array.
+ *
+ * The queue is used by Dijkstra and Prim. It supports decreaseKey, but the
+ * implementation is intentionally simple and uses linear search.
+ */
 class PriorityQueue {
 private:
     PQItem* data;

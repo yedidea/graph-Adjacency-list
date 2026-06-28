@@ -4,12 +4,23 @@
 
 namespace graph {
 
+/**
+ * Represents one node in the adjacency list of a vertex.
+ * Each node stores one neighbor, the edge weight, and a pointer to the next neighbor.
+ */
 struct EdgeNode {
     int dest;
     int weight;
     EdgeNode* next;
 };
 
+/**
+ * Represents an undirected weighted graph using an adjacency list.
+ *
+ * The graph has a fixed number of vertices after construction.
+ * Since STL containers are not used, the adjacency list is implemented manually
+ * with a dynamic array of linked lists.
+ */
 class Graph {
 private:
     int vertices;

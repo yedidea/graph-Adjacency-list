@@ -4,6 +4,9 @@
 
 namespace graph {
 
+/**
+ * Creates a queue with a fixed capacity.
+ */
 Queue::Queue(int capacity)
     : data(0), capacity(capacity), frontIndex(0), rearIndex(-1), currentSize(0) {
     if (capacity <= 0) {
@@ -12,6 +15,10 @@ Queue::Queue(int capacity)
     data = new int[capacity];
 }
 
+/**
+ * Copy constructor.
+ * Copies the internal array and queue indexes.
+ */
 Queue::Queue(const Queue& other)
     : data(0), capacity(other.capacity), frontIndex(other.frontIndex),
       rearIndex(other.rearIndex), currentSize(other.currentSize) {
@@ -21,6 +28,10 @@ Queue::Queue(const Queue& other)
     }
 }
 
+/**
+ * Assignment operator.
+ * Replaces the current queue data with a copy of another queue.
+ */
 Queue& Queue::operator=(const Queue& other) {
     if (this != &other) {
         delete[] data;
@@ -36,10 +47,17 @@ Queue& Queue::operator=(const Queue& other) {
     return *this;
 }
 
+/**
+ * Releases the dynamic array used by the queue.
+ */
 Queue::~Queue() {
     delete[] data;
 }
 
+/**
+ * Adds a value to the back of the queue.
+ * The indexes wrap around using modulo, so the array is used as a circular queue.
+ */
 void Queue::enqueue(int value) {
     if (isFull()) {
         throw std::runtime_error("Queue is full");
@@ -50,6 +68,9 @@ void Queue::enqueue(int value) {
     currentSize++;
 }
 
+/**
+ * Removes and returns the value at the front of the queue.
+ */
 int Queue::dequeue() {
     if (isEmpty()) {
         throw std::runtime_error("Queue is empty");
@@ -61,10 +82,16 @@ int Queue::dequeue() {
     return value;
 }
 
+/**
+ * Returns true if the queue has no elements.
+ */
 bool Queue::isEmpty() const {
     return currentSize == 0;
 }
 
+/**
+ * Returns true if the queue reached its fixed capacity.
+ */
 bool Queue::isFull() const {
     return currentSize == capacity;
 }

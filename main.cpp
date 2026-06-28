@@ -6,6 +6,12 @@
 
 using namespace graph;
 
+/**
+ * Demonstrates the graph class and all implemented algorithms.
+ *
+ * The function creates a weighted undirected graph, runs each algorithm,
+ * and prints the resulting graph in a readable format.
+ */
 int main()
 {
     try

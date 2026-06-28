@@ -10,6 +10,9 @@
 
 using namespace graph;
 
+/**
+ * Tests basic graph edge insertion, removal, and undirected edge behavior.
+ */
 TEST_CASE("Graph addEdge and removeEdge") {
     Graph g(4);
 
@@ -27,6 +30,9 @@ TEST_CASE("Graph addEdge and removeEdge") {
     CHECK(g.getEdgeCount() == 1);
 }
 
+/**
+ * Tests that invalid graph inputs throw the expected exceptions.
+ */
 TEST_CASE("Graph input validation") {
     CHECK_THROWS_AS(Graph(0), std::invalid_argument);
 
@@ -38,6 +44,9 @@ TEST_CASE("Graph input validation") {
     CHECK_THROWS_AS(g.removeEdge(0, 2), std::runtime_error);
 }
 
+/**
+ * Tests that the graph copy constructor creates an independent deep copy.
+ */
 TEST_CASE("Graph copy constructor creates deep copy") {
     Graph g(3);
     g.addEdge(0, 1, 5);
@@ -50,6 +59,9 @@ TEST_CASE("Graph copy constructor creates deep copy") {
     CHECK(copy.edgeExists(1, 2));
 }
 
+/**
+ * Tests that BFS returns a traversal tree from the source vertex.
+ */
 TEST_CASE("BFS returns a tree from source") {
     Graph g(5);
     g.addEdge(0, 1, 1);
@@ -66,6 +78,9 @@ TEST_CASE("BFS returns a tree from source") {
     CHECK(tree.edgeExists(2, 4));
 }
 
+/**
+ * Tests that DFS returns only tree edges and does not include back edges.
+ */
 TEST_CASE("DFS returns only tree edges") {
     Graph g(4);
     g.addEdge(0, 1, 1);
@@ -78,6 +93,9 @@ TEST_CASE("DFS returns only tree edges") {
     CHECK(tree.getEdgeCount() == 3);
 }
 
+/**
+ * Tests that Dijkstra returns the expected shortest paths tree.
+ */
 TEST_CASE("Dijkstra shortest paths tree") {
     Graph g(5);
     g.addEdge(0, 1, 10);
@@ -96,6 +114,10 @@ TEST_CASE("Dijkstra shortest paths tree") {
     CHECK(tree.getTotalWeight() == 13);
 }
 
+
+/**
+ * Tests the total weight and edge count of the MST returned by Prim.
+ */
 TEST_CASE("Prim MST total weight") {
     Graph g(4);
     g.addEdge(0, 1, 1);
@@ -110,6 +132,9 @@ TEST_CASE("Prim MST total weight") {
     CHECK(mst.getTotalWeight() == 6);
 }
 
+/**
+ * Tests the total weight and edge count of the MST returned by Kruskal.
+ */
 TEST_CASE("Kruskal MST total weight") {
     Graph g(4);
     g.addEdge(0, 1, 1);
@@ -124,7 +149,10 @@ TEST_CASE("Kruskal MST total weight") {
     CHECK(mst.getTotalWeight() == 6);
 }
 
-TEST_CASE("Prim and Kruskal throw error on disconnected graph") {
+/**
+ * Tests that MST algorithms reject disconnected graphs.
+ */
+TEST_CASE("Prim and Kruskal throw exceptions on disconnected graph") {
     Graph g(4);
     g.addEdge(0, 1, 1);
     g.addEdge(2, 3, 1);
@@ -133,6 +161,9 @@ TEST_CASE("Prim and Kruskal throw error on disconnected graph") {
     CHECK_THROWS_AS(Algorithms::kruskal(g), std::runtime_error);
 }
 
+/**
+ * Tests basic UnionFind operations: unite and connected.
+ */
 TEST_CASE("UnionFind basic behavior") {
     UnionFind uf(5);
 
@@ -145,6 +176,25 @@ TEST_CASE("UnionFind basic behavior") {
     CHECK(!uf.connected(0, 3));
 }
 
+/**
+ * Tests that UnionFind validates invalid indexes.
+ */
+TEST_CASE("UnionFind invalid indexes throw exceptions") {
+    UnionFind uf(4);
+
+    CHECK_THROWS_AS(uf.find(-1), std::out_of_range);
+    CHECK_THROWS_AS(uf.find(4), std::out_of_range);
+
+    CHECK_THROWS_AS(uf.unite(0, 4), std::out_of_range);
+    CHECK_THROWS_AS(uf.unite(-1, 2), std::out_of_range);
+
+    CHECK_THROWS_AS(uf.connected(0, 5), std::out_of_range);
+    CHECK_THROWS_AS(uf.connected(-1, 3), std::out_of_range);
+}
+
+/**
+ * Tests FIFO behavior and empty-queue exception handling.
+ */
 TEST_CASE("Queue basic behavior") {
     Queue q(3);
 
@@ -161,6 +211,9 @@ TEST_CASE("Queue basic behavior") {
     CHECK_THROWS_AS(q.dequeue(), std::runtime_error);
 }
 
+/**
+ * Tests that popMin returns items by increasing priority.
+ */
 TEST_CASE("PriorityQueue returns the smallest priority first") {
     PriorityQueue pq(5);
 
@@ -186,6 +239,9 @@ TEST_CASE("PriorityQueue returns the smallest priority first") {
 }
 
 
+/**
+ * Tests that decreaseKey lowers the priority of an existing item.
+ */
 TEST_CASE("PriorityQueue decreaseKey updates an existing item") {
     PriorityQueue pq(4);
 
@@ -207,7 +263,27 @@ TEST_CASE("PriorityQueue decreaseKey updates an existing item") {
     CHECK(second.priority == 30);
 }
 
-TEST_CASE("PriorityQueue decreaseKey throws an error for missing vertex") {
+/**
+ * Tests that decreaseKey does not increase an item priority.
+ */
+TEST_CASE("PriorityQueue decreaseKey does not increase priority") {
+    PriorityQueue pq(3);
+
+    pq.push(1, 10);
+    pq.push(2, 20);
+
+    pq.decreaseKey(1, 50);
+
+    PQItem first = pq.popMin();
+
+    CHECK(first.vertex == 1);
+    CHECK(first.priority == 10);
+}
+
+/**
+ * Tests that decreaseKey rejects vertices that are not in the queue.
+ */
+TEST_CASE("PriorityQueue decreaseKey throws an exception for missing vertex") {
     PriorityQueue pq(3);
 
     pq.push(1, 20);
@@ -215,7 +291,10 @@ TEST_CASE("PriorityQueue decreaseKey throws an error for missing vertex") {
     CHECK_THROWS_AS(pq.decreaseKey(2, 5), std::runtime_error);
 }
 
-TEST_CASE("PriorityQueue throws an error when full") {
+/**
+ * Tests that push throws when the priority queue reaches capacity.
+ */
+TEST_CASE("PriorityQueue throws an exception when full") {
     PriorityQueue pq(2);
 
     pq.push(0, 5);
@@ -224,6 +303,9 @@ TEST_CASE("PriorityQueue throws an error when full") {
     CHECK_THROWS_AS(pq.push(2, 1), std::runtime_error);
 }
 
+/**
+ * Tests that algorithms reject invalid start/source vertices.
+ */
 TEST_CASE("Algorithms validate source vertices") {
     Graph g(3);
     g.addEdge(0, 1, 1);
@@ -233,11 +315,16 @@ TEST_CASE("Algorithms validate source vertices") {
     CHECK_THROWS_AS(Algorithms::dijkstra(g, 5), std::out_of_range);
 }
 
-TEST_CASE("Graph getWeight throws an error when edge does not exist") {
+/**
+ * Tests that getWeight throws for a missing edge.
+ */
+TEST_CASE("Graph getWeight throws an exception when edge does not exist") {
     Graph g(3);
     g.addEdge(0, 1, 4);
 
     CHECK(g.getWeight(0, 1) == 4);
     CHECK_THROWS_AS(g.getWeight(0, 2), std::runtime_error);
 }
+
+
 

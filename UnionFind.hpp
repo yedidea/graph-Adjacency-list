@@ -4,6 +4,12 @@
 
 namespace graph {
 
+/**
+ * Implements the Union-Find data structure.
+ *
+ * UnionFind is used by Kruskal's algorithm to check whether adding an edge
+ * would create a cycle in the minimum spanning tree.
+ */
 class UnionFind {
 private:
     int* parent;
